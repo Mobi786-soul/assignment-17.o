@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Register</h2>
+  <form id="registrationForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button type="submit">Register</button>
+    <p id="message"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Basic validation
+      if (!name || !email || !password) {
+        message.textContent = "All fields are required.";
+        message.className = "error";
+        return;
+      }
+
+      // Email format check (basic regex)
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        message.textContent = "Invalid email format.";
+        message.className = "error";
+        return;
+      }
+
+      // Store in localStorage as an object (email as key)
+      const user = { name, email, password };
+      localStorage.setItem(email, JSON.stringify(user));
+
+      message.textContent = "Registration successful!";
+      message.className = "success";
+
+      // Optionally clear form
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>
